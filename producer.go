@@ -401,6 +401,10 @@ func (d *DefaultProducer) sendMessageAsync(addr string, brokerName string, msg *
 	retryTimesWhenSendFailed int, times int32, context *SendMessageContext, producer *DefaultProducer) (err error) {
 	invokeCallback := func(responseFuture *ResponseFuture) {
 		var sendResult *SendResult
+		if responseFuture == nil {
+			fmt.Fprintln(os.Stderr, "responseFuture can't be null, error ")
+			return
+		}
 		responseCommand := responseFuture.responseCommand
 
 		if sendCallback == nil && responseCommand != nil {
